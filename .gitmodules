@@ -1,0 +1,3 @@
+[submodule "fanews.util"]
+	path = fanews.util
+	url = http://gitlab.hzfanews.com/fw_pub/fanews.util.git
