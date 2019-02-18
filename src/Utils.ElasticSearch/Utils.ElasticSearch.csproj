@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <Version>1.0.0.0</Version>
-    <PackageId>Utils.ElasticSearch6.x</PackageId>
+    <PackageId>Utils.ElasticSearch5.x</PackageId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
