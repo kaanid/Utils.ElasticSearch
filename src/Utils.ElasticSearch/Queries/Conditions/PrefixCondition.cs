@@ -20,7 +20,7 @@ namespace Utils.ElasticSearch.Queries.Conditions
         }
         public QueryContainer GetContainer()
         {
-            return _queryContainerDescriptor.Prefix(_expression, _value);
+            return _queryContainerDescriptor.Prefix(_expression, _value, null, MultiTermQueryRewrite.ConstantScore, name: null);
         }
     }
 }

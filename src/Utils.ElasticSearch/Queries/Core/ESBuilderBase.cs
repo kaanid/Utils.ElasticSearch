@@ -337,7 +337,7 @@ namespace Utils.ElasticSearch.Queries.Core
             var connection = new InMemoryConnection();
             var settings = new ConnectionSettings(connection);
             var client = new ElasticClient(settings);
-            return client.RequestResponseSerializer.SerializeToString(sd, SerializationFormatting.Indented);
+            return client.Serializer.SerializeToString(sd, SerializationFormatting.Indented);
         }
 
         public Func<SearchDescriptor<TEntity>, ISearchRequest> ToFunc()

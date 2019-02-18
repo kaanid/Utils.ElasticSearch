@@ -6,15 +6,16 @@ using Nest;
 
 namespace Utils.ElasticSearch.Queries.Conditions
 {
-    public class MatchPhraseCondition<TEntity> : Abstractions.ICondition where TEntity:class
+    public class MatchPhraseCondition<TEntity> : Abstractions.ICondition where TEntity : class
     {
         private QueryContainerDescriptor<TEntity> _queryContainerDescriptor;
-        private Func<MatchPhraseQueryDescriptor<TEntity>, IMatchPhraseQuery> _expression;
+        private Func<MatchPhraseQueryDescriptor<TEntity>, IMatchQuery> _expression;
 
         public MatchPhraseCondition(QueryContainerDescriptor<TEntity> queryContainerDescriptor, Expression<Func<TEntity, object>> expField, object value)
         {
             _queryContainerDescriptor = queryContainerDescriptor;
-            _expression = (mqd)=> mqd.Field(expField).Query(value.ToString());
+
+            _expression = (mqd) => mqd.Field(expField).Query(value.ToString());
         }
         public QueryContainer GetContainer()
         {

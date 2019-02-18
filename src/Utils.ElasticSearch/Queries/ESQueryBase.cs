@@ -207,9 +207,9 @@ namespace Utils.ElasticSearch.Queries
 
         public abstract Task<Dictionary<string, object>> ToDictAsync();
 
-        public abstract AggregateDictionary ToAggregateDictionary();
+        public abstract IReadOnlyDictionary<string, IAggregate> ToAggregateDictionary();
 
-        public abstract Task<AggregateDictionary> ToAggregateDictionaryAsync();
+        public abstract Task<IReadOnlyDictionary<string, IAggregate>> ToAggregateDictionaryAsync();
 
         public IESQuery<TEntity> Where(Expression<Func<TEntity, bool>> expression)
         {

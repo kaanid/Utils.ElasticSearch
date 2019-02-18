@@ -86,13 +86,13 @@ namespace Utils.ElasticSearch
             return GetDict(res);
         }
 
-        public override AggregateDictionary ToAggregateDictionary()
+        public override IReadOnlyDictionary<string, IAggregate> ToAggregateDictionary()
         {
             var res = GetResponse();
             return res.Aggregations;
         }
 
-        public override async Task<AggregateDictionary> ToAggregateDictionaryAsync()
+        public override async Task<IReadOnlyDictionary<string, IAggregate>> ToAggregateDictionaryAsync()
         {
             var res = await GetResponseAsync();
             return res.Aggregations;
@@ -126,7 +126,7 @@ namespace Utils.ElasticSearch
         }
 
         private Dictionary<string, object> GetDict(Nest.ISearchResponse<TEntity> res)
-        {           
+        {
             if (res.Aggregations == null)
                 throw new Exception($"ToDict Aggregations {res.ApiCall.HttpMethod} {res.ApiCall.HttpStatusCode}", res.ApiCall.OriginalException);
             Dictionary<string, object> dict = new Dictionary<string, object>();
@@ -156,28 +156,17 @@ namespace Utils.ElasticSearch
                         break;
                     case "BucketAggregate":
                         var val6 = m.Value as BucketAggregate;
-                        dict.Add("AfterKey", val6.AfterKey);
                         dict.Add("BgCount", val6.BgCount);
                         dict.Add("DocCount", val6.DocCount);
                         dict.Add("DocCountErrorUpperBound", val6.DocCountErrorUpperBound);
                         dict.Add("Items", val6.Items);
-                        foreach(var m2 in val6.Items)
+                        if (val6.Items != null)
                         {
-                            var val66 = m2 as KeyedBucket<object>;
-                            if(val66!=null)
+                            foreach (var m6 in val6.Items)
                             {
-                                dict.Add($"Items-{val66.Key}", val66.Values?.Count());
-                                int i = 0;
-                                foreach(var m4 in val66.Values)
-                                {
-                                    switch (m4.GetType().Name)
-                                    {
-                                        case "ValueAggregate":
-                                            var val6666 = m4 as ValueAggregate;
-                                            dict.Add($"Items-{val66.Key}-{i++}", val6666.Value);
-                                            break;
-                                    }
-                                }
+                                var v9 = m6 as KeyedBucket<object>;
+                                if (v9 != null)
+                                    dict.Add($"Items-{v9.Key}", v9.DocCount);
                             }
                         }
                         dict.Add("SumOtherDocCount", val6.SumOtherDocCount);

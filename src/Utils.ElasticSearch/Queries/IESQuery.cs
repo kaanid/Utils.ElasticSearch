@@ -83,12 +83,12 @@ namespace Utils.ElasticSearch.Queries
         /// ES 查询获取原生AggregateDictionary字典
         /// </summary>
         /// <returns></returns>
-        AggregateDictionary ToAggregateDictionary();
+        IReadOnlyDictionary<string, IAggregate> ToAggregateDictionary();
         /// <summary>
         /// ES 查询获取原生AggregateDictionary字典
         /// </summary>
         /// <returns></returns>
-        Task<AggregateDictionary> ToAggregateDictionaryAsync();
+        Task<IReadOnlyDictionary<string, IAggregate>> ToAggregateDictionaryAsync();
         /// <summary>
         /// ES Type字段
         /// </summary>

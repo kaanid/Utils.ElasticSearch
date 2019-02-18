@@ -94,14 +94,12 @@ namespace Utils.ElasticSearch.Queries.Conditions
         {
             switch (type.Name)
             {
-                case "Int32":
-                case "Int64":
-                    return new LongRangeCondition<TEntity>(queryContainerDescriptor, expField, Util.Helpers.Convert.ToLong(obj), @operator);
-                case "Double":
-                case "Decimal":
-                    return new NumericRangeCondition<TEntity>(queryContainerDescriptor, expField, Util.Helpers.Convert.ToDouble(obj), @operator);
                 case "DateTime":
                     return new DateRangeCondition<TEntity>(queryContainerDescriptor, expField, (DateTime)obj, @operator);
+                case "Int32":
+                case "Int64":
+                case "Double":
+                    return new NumericRangeCondition<TEntity>(queryContainerDescriptor, expField, Util.Helpers.Convert.ToDouble(obj), @operator);
             }
             throw new NotImplementedException($"运算符 {@operator.Description()} 类型 {type.Name} 未实现");
         }
