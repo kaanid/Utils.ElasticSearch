@@ -17,9 +17,6 @@ namespace ConsoleApp1
         {
             Console.WriteLine("Hello World!");
 
-            //BookTest();
-            //InsertWeibo2();
-            InsertWeibo4();
 
             var conf = new ConfigurationBuilder()
                  .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
