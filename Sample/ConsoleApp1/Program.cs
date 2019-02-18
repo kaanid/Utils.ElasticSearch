@@ -93,10 +93,10 @@ namespace ConsoleApp1
             //    .Where(q => q.ArticleSequenceId > 0)
             //    .Aggs(f => f.Cardinality("max_contentwordscount_cardinality", mbad => mbad.Field("contentwordscount")));
 
-            query
-                .Index("weibo")
-                .Where(q => q.ArticleSequenceId > 0)
-                .Aggs(f => f.Terms("max_contentwordscount_terms", mbad => mbad.Field("contentwordscount").Order(f2=>f2.CountAscending())));
+            //query
+            //    .Index("weibo")
+            //    .Where(q => q.ArticleSequenceId > 0)
+            //    .Aggs(f => f.Terms("max_contentwordscount_terms", mbad => mbad.Field("contentwordscount").Order(f2=>f2.CountDescending())));
 
 
 
