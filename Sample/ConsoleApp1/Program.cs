@@ -17,9 +17,6 @@ namespace ConsoleApp1
         {
             Console.WriteLine("Hello World!");
 
-            //BookTest();
-            //InsertWeibo2();
-            InsertWeibo4();
 
             var conf = new ConfigurationBuilder()
                  .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -36,7 +33,6 @@ namespace ConsoleApp1
                 })
                 .AddSingleton<IConfiguration>((s) => conf)
                 .AddElasticSearch(new string[] { "http://localhost:9200" });
-            //.AddElasticSearch(new string[] { "http://10.25.57.66:9200" });
 
             var sp = sc.BuildServiceProvider();
 
@@ -199,46 +195,6 @@ namespace ConsoleApp1
             list = query.Where(book => book.Created > DateTime.Now.AddDays(-1) || book.Pages > 10 && book.Pages < 10000).ToList();
             count = list.Count;
             Console.WriteLine($"query.Where(book => book.Created > DateTime.Now.AddDays(-1) || book.Pages>10 && book.Pages<10000).ToList() count:{count}");
-        }
-
-        static void InsertWeibo()
-        {
-            //http://10.25.57.66:9200/fwsmtnew_weibo2018q4/_search?size=100
-            var client = new ElasticSearchClient("http://localhost:9200");
-            var sclient = client.GetClient();
-
-            sclient.CreateIndex("weibo",f=>f.Mappings(m=>m.Map<Weibo>(map=>map
-                    .Properties(p=>p
-                        .Keyword(k=>k.Name(n=>n.ArticleId))
-                        .Keyword(k => k.Name(n => n.Url))
-                        .Keyword(k => k.Name(n => n.Editor))
-                        .Keyword(k => k.Name(n => n.Class1))
-                        .Keyword(k => k.Name(n => n.Class2))
-                        .Text(k=>k.Name(n=>n.ContentTxt).Fields(fs=>fs.Keyword(ss=>ss.Name("keywork"))))
-                        .Text(k => k.Name(n => n.Title))
-                        .Number(k=>k.Name(n=>n.ArticleSequenceId).Type(Nest.NumberType.Long))
-                        .Number(k => k.Name(n => n.Contentwordscount).Type(Nest.NumberType.Integer))
-                        .Date(k=>k.Name(n=>n.CreateIndex_Time))
-                        .Date(k => k.Name(n => n.Createtime))
-                        )
-                    )
-                ));
-
-            var httpClient = new HttpClient();
-            for (int i = 0; i < 10; i++)
-            {
-                string url = $"http://10.25.57.66:9200/fwsmtnew_weibo2018q4/_search?size=100&from={i * 100}";
-                var strjson = httpClient.GetStringAsync(url).Result;
-                if (strjson != null)
-                {
-                    var obj = JsonConvert.DeserializeObject<dynamic>(strjson);
-                    foreach (var hit in obj.hits.hits)
-                    {
-                        Weibo wb = JsonConvert.DeserializeObject<Weibo>(hit._source.ToString());
-                        var result=sclient.Create<Weibo>(wb, cd => cd.Index("weibo").Id(wb.ArticleSequenceId));
-                    }
-                }
-            }
         }
 
         static void InsertWeibo2()
